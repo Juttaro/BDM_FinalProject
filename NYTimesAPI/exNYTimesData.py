@@ -2,7 +2,7 @@
 # prints timestags to console
 # writes Most Viewed articles of the day for U.S. section to MostPop.json
 # writes Most Shared articles of the day for all-sections to MostSharedviaTwitter.json
-# 
+#
 
 import json
 import urllib2
@@ -27,7 +27,7 @@ print "Most Popular API",'\n'
 
 # Most Popular
 # api-key2 = 6f8d5c8a948141bdb509b0ccfef983b4
-url2 = "https://api.nytimes.com/svc/mostpopular/v2/mostviewed/U.S./1.json?api-key=6f8d5c8a948141bdb509b0ccfef983b4";
+url2 = "https://api.nytimes.com/svc/mostpopular/v2/mostviewed/all-sections/30.json?api-key=6f8d5c8a948141bdb509b0ccfef983b4"
 request2 = urllib2.urlopen(url2)
 MostPopularSet = request2.read()
 request2.close()
