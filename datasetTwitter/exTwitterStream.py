@@ -8,20 +8,19 @@ from httplib import IncompleteRead
 
 APP_KEY = "LWnaGn2ZbLwNa9SYzwbeFz5vQ"
 APP_SECRET = "ZQgTvpYzJhDRe0xoROkm2o6AqviZiHtiQIL9uFHS0wBINYN7Sw"
-count = 0
 
 class MyStreamer(TwythonStreamer):
     def on_success(self, data):
-        try:
-            if 'text' in data:
+        # try:
+        if 'text' in data:
             #print data['text'].encode('utf-8')
-                twtToJSON = open('stream_twt.json','a')
-                twtToJSON.write(json.dumps(data))
-                twtToJSON.close()
-                return True
-        except BaseException, e:
-            print 'failed on', str(e)
-            time.sleep(5)
+            twtToJSON = open('stream_twt.json','a')
+            twtToJSON.write(json.dumps(data))
+            twtToJSON.close()
+                # return True
+        # except BaseException, e:
+            # print 'failed on', str(e)
+            # time.sleep(5)
 
         #try:
             # if 'text' in data:
