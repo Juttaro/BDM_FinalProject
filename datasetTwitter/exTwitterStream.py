@@ -11,12 +11,15 @@ APP_SECRET = "ZQgTvpYzJhDRe0xoROkm2o6AqviZiHtiQIL9uFHS0wBINYN7Sw"
 
 class MyStreamer(TwythonStreamer):
     def on_success(self, data):
-        # try:
+        # if 'text' in data:
+        #      print data['text'].encode('utf-8')
+        # # try:
         if 'text' in data:
-            #print data['text'].encode('utf-8')
+            print data['text'].encode('utf-8')
             twtToJSON = open('stream_twt.json','a')
             twtToJSON.write(json.dumps(data))
             twtToJSON.close()
+            self.disconnect()
                 # return True
         # except BaseException, e:
             # print 'failed on', str(e)
@@ -52,19 +55,22 @@ twitter = Twython(APP_KEY, APP_SECRET)
 OAUTH_TOKEN = "850102013174177792-pfalrKryY1o5mQ9WrQRnj1EBrYIaOYf"
 OAUTH_TOKEN_SECRET = "eg0Kfv0EgZ4e2aNtf6tney9lI12S4MlynXkcWIVfiVODE"
 
-while True:
-    try:
-        stream = MyStreamer(APP_KEY, APP_SECRET,OAUTH_TOKEN,OAUTH_TOKEN_SECRET)
-        stream.statuses.filter(locations='-125,30,-65,50')
-    except IncompleteRead:
-        continue
-    except BaseException, e:
-        print 'failed on', str(e)
-        time.sleep(5)
-    except KeyboardInterrupt:
-        stream.disconnect()
-        break
+stream = MyStreamer(APP_KEY, APP_SECRET,OAUTH_TOKEN,OAUTH_TOKEN_SECRET)
+stream.statuses.filter(locations='-125,30,-65,50')
 
 
-# stream.statuses.filter(track='#nyc')
+# while True:
+#     try:
+#         stream = MyStreamer(APP_KEY, APP_SECRET,OAUTH_TOKEN,OAUTH_TOKEN_SECRET)
+#         stream.statuses.filter(locations='-125,30,-65,50')
+#     except IncompleteRead:
+#         continue
+#     except BaseException, e:
+#         print 'failed on', str(e)
+#         time.sleep(5)
+#     except KeyboardInterrupt:
+#         stream.disconnect()
+#         break
+
+# stream.statuses.filter(track='trump')
 # stream.statuses.filter(language='english')
