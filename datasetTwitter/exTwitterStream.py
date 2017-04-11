@@ -1,9 +1,11 @@
-#Twitter streaming Api
+#This script uses twython to interface Twitter's Stream API
+"""
+Documentation:  https://twython.readthedocs.io/en/latest/
+Requirements:   pip install twython
+"""
 
 import json
-import time
 import codecs
-from twython import Twython
 from twython import TwythonStreamer
 from httplib import IncompleteRead
 
@@ -30,5 +32,5 @@ if __name__ == '__main__':
 
         except KeyboardInterrupt:
             print '...Stream END'
-            twtToJSON.close()
             stream.disconnect()
+            twtToJSON.close()
