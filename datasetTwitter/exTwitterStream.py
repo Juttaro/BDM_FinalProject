@@ -8,10 +8,10 @@ import json
 import codecs
 from twython import TwythonStreamer
 
-APP_KEY = "LWnaGn2ZbLwNa9SYzwbeFz5vQ"
-APP_SECRET = "ZQgTvpYzJhDRe0xoROkm2o6AqviZiHtiQIL9uFHS0wBINYN7Sw"
-OAUTH_TOKEN = "850102013174177792-pfalrKryY1o5mQ9WrQRnj1EBrYIaOYf"
-OAUTH_TOKEN_SECRET = "eg0Kfv0EgZ4e2aNtf6tney9lI12S4MlynXkcWIVfiVODE"
+APP_KEY = ""
+APP_SECRET = ""
+OAUTH_TOKEN = ""
+OAUTH_TOKEN_SECRET = ""
 
 twtToJSON = codecs.open('stream_twt.json','w', 'utf-8')
 
