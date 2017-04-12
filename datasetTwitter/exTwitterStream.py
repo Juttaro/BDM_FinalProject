@@ -41,10 +41,12 @@ class MyStreamer(TwythonStreamer):
         print status_code
 
 if __name__ == '__main__':
+    print 'Streaming...'
+    #opening json array
+    twtToJSON.write('[')
+
     while True:
         try:
-            print 'Streaming...'
-            twtToJSON.write('[')
             stream = MyStreamer(APP_KEY, APP_SECRET,OAUTH_TOKEN,OAUTH_TOKEN_SECRET)
             stream.statuses.filter(locations='-125,30,-65,50')
 
@@ -54,12 +56,13 @@ if __name__ == '__main__':
 
         except KeyboardInterrupt:
             stream.disconnect()
-            #remove the last comma of the json list
-            twtToJSON.seek(-1, 2)
-
-            #close the json list
-            twtToJSON.write(']')
-            twtToJSON.close()
             print '...Stream END'
-
             break
+
+    #remove the last comma of the json list
+    twtToJSON.seek(-1, 2)
+
+    #close the json list
+    twtToJSON.write(']')
+    #close file
+    twtToJSON.close()
