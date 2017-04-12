@@ -18,7 +18,23 @@ twtToJSON = codecs.open('stream_twt.json','w', 'utf-8')
 class MyStreamer(TwythonStreamer):
     def on_success(self, data):
         if 'text' in data:
-            twtToJSON.write(json.JSONEncoder(ensure_ascii=False).encode(data)+',')
+            #twtToJSON.write(json.JSONEncoder(ensure_ascii=False).encode(data)+',')
+            twtToJSON.write(json.JSONEncoder(ensure_ascii=False).encode(
+                dict(
+                    text=data['text'],
+                    is_quote_status=data['is_quote_status'],
+                    favorite_count=data['favorite_count'],
+                    retweeted=data['retweeted'],
+                    timestamp_ms=data['timestamp_ms'],
+                    entities=data['entities'],
+                    id_str=data['id_str'],
+                    retweet_count=data['retweet_count'],
+                    favorited=data['favorited'],
+                    lang=data['lang'],
+                    created_at=data['created_at'],
+                    place=data['place']
+                )
+            )+',')
 
     def on_error(self, status_code, data):
         print status_code
