@@ -8,7 +8,7 @@ if __name__ == '__main__':
 
     count = 0
     for i in df['place']:
-        df['place'][count] =  i['full_name']
+        df['place'][count] = i['full_name']
         count += 1
 
     df = df[df.lang == 'en']
