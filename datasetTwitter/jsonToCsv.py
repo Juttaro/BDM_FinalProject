@@ -7,6 +7,7 @@ if __name__ == '__main__':
     del df['created_at']                    # Remove this comment once you re-stream the data
 
     count = 0
+
     for i in df['place']:
         df['place'][count] = i['full_name']
         count += 1

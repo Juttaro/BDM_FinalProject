@@ -8,6 +8,7 @@ import json
 import codecs
 from httplib import IncompleteRead
 from twython import TwythonStreamer
+import time
 
 
 # APP_KEY = ""
@@ -25,13 +26,14 @@ OAUTH_TOKEN_SECRET = "QKMTpoywTvpvT1qWP0VqvW9B8FBRp2TrOOP74Ab3JCHUW"
 # =============================
 
 
-twtToJSON = codecs.open('stream_twt.json','w', 'utf-8')
+twtToJSON = codecs.open('stream_twt.json', 'w', 'utf-8')
 
 # Disconnection fails bc you can not recieve the data fast enough
 
 class MyStreamer(TwythonStreamer):
     def on_success(self, data):
         if 'text' in data:
+            #print("\tcontinue streaming...")
             #twtToJSON.write(json.JSONEncoder(ensure_ascii=False).encode(data)+',')
             twtToJSON.write(json.JSONEncoder(ensure_ascii=False).encode(
                 dict(
@@ -50,20 +52,23 @@ class MyStreamer(TwythonStreamer):
                 )
             )+',')
 
-    def on_error(self, status_code):
-        print status_code
+    def on_error(self, status_code, data):
+        print "ERROR", status_code
 
 if __name__ == '__main__':
+    print 'Streaming...'
+    twtToJSON.write('[')
+
     while True:
         try:
-            print 'Streaming...'
-            twtToJSON.write('[')
             stream = MyStreamer(APP_KEY, APP_SECRET,OAUTH_TOKEN,OAUTH_TOKEN_SECRET)
             stream.statuses.filter(locations='-125,30,-65,50')
 
-        except IncompleteRead:
-            print 'IncompleteRead'
-            continue
+        # except IncompleteRead: # No need for this
+        #     print 'ERROR HERE \n'
+        #     print 'IncompleteRead'
+        #     twtToJSON.seek(-1, 2)
+        #     continue
 
         except KeyboardInterrupt:
             stream.disconnect()
@@ -76,6 +81,12 @@ if __name__ == '__main__':
             print '...Stream END'
 
             break
+
+        except BaseException, e:
+            print 'FAILED ON: ', e
+            print '\nSleeping'
+            print time.sleep(5)  # Do not cut stream in this 5 second window
+            print '\tStream Starting again...'
 
 
 
