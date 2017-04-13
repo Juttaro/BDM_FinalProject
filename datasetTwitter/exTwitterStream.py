@@ -8,6 +8,7 @@ import json
 import codecs
 from httplib import IncompleteRead
 from twython import TwythonStreamer
+import time
 
 
 # APP_KEY = ""
@@ -15,14 +16,14 @@ from twython import TwythonStreamer
 # OAUTH_TOKEN = ""
 # OAUTH_TOKEN_SECRET = ""
 
-# ======= Ames KEY ===========
-
-APP_KEY = "aW5ds2Mq65CSmHtesWHypgdrG"
-APP_SECRET = "qjY9G9VriIpMCaRsR1kgV6mCL3HVJlQ4FTEOnzeKByvJD9KFSi"
-OAUTH_TOKEN = "834103546601672705-MXXFPwSgz1nMoSsTeiGmC1p7WQ3ljM6"
-OAUTH_TOKEN_SECRET = "QKMTpoywTvpvT1qWP0VqvW9B8FBRp2TrOOP74Ab3JCHUW"
-
-# =============================
+# # ======= Ames KEY ===========
+#
+# APP_KEY = "aW5ds2Mq65CSmHtesWHypgdrG"
+# APP_SECRET = "qjY9G9VriIpMCaRsR1kgV6mCL3HVJlQ4FTEOnzeKByvJD9KFSi"
+# OAUTH_TOKEN = "834103546601672705-MXXFPwSgz1nMoSsTeiGmC1p7WQ3ljM6"
+# OAUTH_TOKEN_SECRET = "QKMTpoywTvpvT1qWP0VqvW9B8FBRp2TrOOP74Ab3JCHUW"
+#
+# # =============================
 
 # ========James's KEY==========
 APP_KEY = "LWnaGn2ZbLwNa9SYzwbeFz5vQ"
@@ -69,20 +70,23 @@ if __name__ == '__main__':
         try:
             stream = MyStreamer(APP_KEY, APP_SECRET,OAUTH_TOKEN,OAUTH_TOKEN_SECRET)
             stream.statuses.filter(locations='-125,30,-65,50')
-
-        except IncompleteRead:
-            print 'IncompleteRead'
-            continue
+        # except IncompleteRead:
+        #     print 'Incomplete'
+        #     continue
 
         except KeyboardInterrupt:
             stream.disconnect()
+            # remove the last comma of the json list
+            twtToJSON.seek(-1, 2)
+            #close the json list
+            twtToJSON.write(']')
+            # close file
+            twtToJSON.close()
             print '...Stream END'
             break
 
-    #remove the last comma of the json list
-    twtToJSON.seek(-1, 2)
-
-    #close the json list
-    twtToJSON.write(']')
-    #close file
-    twtToJSON.close()
+        except BaseException, e:
+            print 'failed on', str(e)
+            print '\nsleeping'
+            time.sleep(5) #Do not end while sleeping
+            print '\nstreaming starting again'
