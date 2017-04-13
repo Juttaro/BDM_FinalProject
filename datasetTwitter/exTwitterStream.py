@@ -29,6 +29,9 @@ if __name__ == '__main__':
             print 'Streaming...'
             stream = MyStreamer(APP_KEY, APP_SECRET,OAUTH_TOKEN,OAUTH_TOKEN_SECRET)
             stream.statuses.filter(locations='-125,30,-65,50')
+        except IncompleteRead:
+            stream = MyStreamer(APP_KEY, APP_SECRET,OAUTH_TOKEN,OAUTH_TOKEN_SECRET)
+            stream.statuses.filter(locations='-125,30,-65,50')
         except KeyboardInterrupt:
             print '...Stream END'
             stream.disconnect()
