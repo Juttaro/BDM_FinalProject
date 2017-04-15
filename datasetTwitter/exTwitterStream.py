@@ -17,12 +17,10 @@ import time
 # OAUTH_TOKEN_SECRET = ""
 
 # # ======= Ames KEY ===========
-#
 # APP_KEY = "aW5ds2Mq65CSmHtesWHypgdrG"
 # APP_SECRET = "qjY9G9VriIpMCaRsR1kgV6mCL3HVJlQ4FTEOnzeKByvJD9KFSi"
 # OAUTH_TOKEN = "834103546601672705-MXXFPwSgz1nMoSsTeiGmC1p7WQ3ljM6"
 # OAUTH_TOKEN_SECRET = "QKMTpoywTvpvT1qWP0VqvW9B8FBRp2TrOOP74Ab3JCHUW"
-#
 # # =============================
 
 # ========James's KEY==========
