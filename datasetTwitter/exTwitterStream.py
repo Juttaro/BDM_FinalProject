@@ -8,17 +8,21 @@ import json
 import codecs
 from httplib import IncompleteRead
 from twython import TwythonStreamer
+import time
 
 APP_KEY = "TKTfiGJl2TE32Gh24gCRIdP4J"
 APP_SECRET = "yLjbGEv9TjBNLKmVZOSkIwfP6kij400YkgNB4wPLCJDPAAfUCM"
 OAUTH_TOKEN = "848331199504363520-UmfEjp6vNUCGVhz8CEIuG52JZpXBySf"
 OAUTH_TOKEN_SECRET = "GaiFuI0ssvI7y2EwMo9J0xmazFDdEQnw9uO1hYbZ3TfLA"
 
-twtToJSON = codecs.open('stream_twt.json','w', 'utf-8')
+twtToJSON = codecs.open('stream_twt.json', 'w', 'utf-8')
+
+# Disconnection fails bc you can not recieve the data fast enough
 
 class MyStreamer(TwythonStreamer):
     def on_success(self, data):
         if 'text' in data:
+            #print("\tcontinue streaming...")
             #twtToJSON.write(json.JSONEncoder(ensure_ascii=False).encode(data)+',')
             twtToJSON.write(json.JSONEncoder(ensure_ascii=False).encode(
                 dict(
@@ -38,7 +42,7 @@ class MyStreamer(TwythonStreamer):
             )+',')
 
     def on_error(self, status_code, data):
-        print status_code
+        print "ERROR", status_code
 
 if __name__ == '__main__':
     print 'Streaming...'
@@ -50,19 +54,25 @@ if __name__ == '__main__':
             stream = MyStreamer(APP_KEY, APP_SECRET,OAUTH_TOKEN,OAUTH_TOKEN_SECRET)
             stream.statuses.filter(locations='-125,30,-65,50')
 
-        except IncompleteRead:
-            print 'IncompleteRead'
-            continue
+        # except IncompleteRead: # No need for this
+        #     print 'ERROR HERE \n'
+        #     print 'IncompleteRead'
+        #     twtToJSON.seek(-1, 2)
+        #     continue
 
         except KeyboardInterrupt:
             stream.disconnect()
+            # remove the last comma of the json list
+            twtToJSON.seek(-1, 2)
+            #close the json list
+            twtToJSON.write(']')
+            # close file
+            twtToJSON.close()
             print '...Stream END'
             break
 
-    #remove the last comma of the json list
-    twtToJSON.seek(-1, 2)
-
-    #close the json list
-    twtToJSON.write(']')
-    #close file
-    twtToJSON.close()
+        except BaseException, e:
+            print 'FAILED ON: ', e
+            print '\nSleeping'
+            print time.sleep(5)  # Do not cut stream in this 5 second window
+            print '\tStream Starting again...'
