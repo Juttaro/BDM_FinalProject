@@ -10,10 +10,10 @@ from httplib import IncompleteRead
 from twython import TwythonStreamer
 import time
 
-APP_KEY = "TKTfiGJl2TE32Gh24gCRIdP4J"
-APP_SECRET = "yLjbGEv9TjBNLKmVZOSkIwfP6kij400YkgNB4wPLCJDPAAfUCM"
-OAUTH_TOKEN = "848331199504363520-UmfEjp6vNUCGVhz8CEIuG52JZpXBySf"
-OAUTH_TOKEN_SECRET = "GaiFuI0ssvI7y2EwMo9J0xmazFDdEQnw9uO1hYbZ3TfLA"
+APP_KEY =
+APP_SECRET =
+OAUTH_TOKEN =
+OAUTH_TOKEN_SECRET =
 
 twtToJSON = codecs.open('stream_twt.json', 'w', 'utf-8')
 
@@ -22,24 +22,9 @@ twtToJSON = codecs.open('stream_twt.json', 'w', 'utf-8')
 class MyStreamer(TwythonStreamer):
     def on_success(self, data):
         if 'text' in data:
-            #print("\tcontinue streaming...")
-            #twtToJSON.write(json.JSONEncoder(ensure_ascii=False).encode(data)+',')
-            twtToJSON.write(json.JSONEncoder(ensure_ascii=False).encode(
-                dict(
-                    text=data['text'],
-                    is_quote_status=data['is_quote_status'],
-                    favorite_count=data['favorite_count'],
-                    retweeted=data['retweeted'],
-                    timestamp_ms=data['timestamp_ms'],
-                    entities=data['entities'],
-                    id_str=data['id_str'],
-                    retweet_count=data['retweet_count'],
-                    favorited=data['favorited'],
-                    lang=data['lang'],
-                    created_at=data['created_at'],
-                    place=data['place']
-                )
-            )+',')
+            if 'retweeted_status' in data or 'quoted_status' in data:
+                #print("\tcontinue streaming...")
+                twtToJSON.write(json.JSONEncoder(ensure_ascii=False).encode(data)+',')
 
     def on_error(self, status_code, data):
         print "ERROR", status_code
@@ -53,13 +38,8 @@ if __name__ == '__main__':
         try:
             stream = MyStreamer(APP_KEY, APP_SECRET,OAUTH_TOKEN,OAUTH_TOKEN_SECRET)
             stream.statuses.filter(locations='-125,30,-65,50')
-
-        # except IncompleteRead: # No need for this
-        #     print 'ERROR HERE \n'
-        #     print 'IncompleteRead'
-        #     twtToJSON.seek(-1, 2)
-        #     continue
-
+            #stream.statuses.filter(track='en')
+            
         except KeyboardInterrupt:
             stream.disconnect()
             # remove the last comma of the json list
