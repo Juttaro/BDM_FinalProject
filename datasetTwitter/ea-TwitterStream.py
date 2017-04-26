@@ -16,6 +16,7 @@ from tweepy.streaming import StreamListener
 from tweepy import OAuthHandler
 from tweepy import Stream
 import json
+import csv
 
 # ======= Ames KEY ===========
 
@@ -28,25 +29,27 @@ OAUTH_TOKEN_SECRET = "QKMTpoywTvpvT1qWP0VqvW9B8FBRp2TrOOP74Ab3JCHUW"
 
 
 # Basic class that will just print the stream of tweets to stdout
-class StdOutListener(StreamListener):
+class CustomStreamListener(StreamListener):
 
     def on_data(self, data):
+        print "     FETCHING..."
 
-        #if 'text' in data:
-        decoded = json.loads(data)
+        decoded = json.loads(data)  # Loads the data from stream into decoded
 
-            #saving = decoded['user']['screen_name'], decoded['text'].encode('ascii', 'ignore')
+        # with open('ea_dbTweets.csv', 'w') as handle:
+        #
+        #     writer = csv.writer(handle)
+        #     writer.writerow(['Screen_Name', 'Tweet'])
+        #     writer.writerows((decoded['user']['screen_name'], decoded['text'].encode('ascii', 'ignore')))
 
-            # saveFile = open('tweetsDB.csv', 'a')  # We want to append to the csv file
-            # saveFile.write(saving)
-            # saveFile.write('\n')
-            # saveFile.close()
 
-            #print data
+            #handle.write('user, username, tweet')
+            #handle.writerow(data.user.screen_name, data.created_at, data.text)
+
+            #print "\n", data.user.screen_name, data.created_at, data.text
 
         print (decoded['user']['screen_name'], decoded['text'].encode('ascii', 'ignore'))
 
-        #print decoded
         return True
 
     def on_error(self, status):
@@ -57,11 +60,12 @@ if __name__ == '__main__':
     print "START STREAM"
 
     # This handles the identification
-    l = StdOutListener()
+    l = CustomStreamListener()
     auth = OAuthHandler(APP_KEY, APP_SECRET )
     auth.set_access_token(OAUTH_TOKEN, OAUTH_TOKEN_SECRET)
-    stream = Stream(auth, l)
 
+
+    stream = Stream(auth, l)
     # On this line we will filter by whatever parameters we choose
     stream.filter(locations=[-74.1687, 40.5722, -73.8062, 40.9467])
 

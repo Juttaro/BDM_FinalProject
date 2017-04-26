@@ -7,6 +7,7 @@ if __name__ == '__main__':
     del DataFrame['created_at']                    # Remove this comment once you re-stream the data
 
     count = 0
+
     for i in DataFrame['place']:
         DataFrame['place'][count] =  i['full_name'] # Replaces Long/Lat Coordinates with place name
         count += 1                                  # in example 43.66,73 will now be New York, NY
@@ -18,3 +19,4 @@ if __name__ == '__main__':
 
 
     # Ignore warning "A value is trying to be set on a copy of a slice from a DataFrame" if any
+
