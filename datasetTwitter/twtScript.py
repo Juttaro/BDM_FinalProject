@@ -10,12 +10,12 @@ from httplib import IncompleteRead
 from twython import TwythonStreamer
 import time
 
-APP_KEY =
-APP_SECRET =
-OAUTH_TOKEN =
-OAUTH_TOKEN_SECRET =
+APP_KEY = "LWnaGn2ZbLwNa9SYzwbeFz5vQ"
+APP_SECRET = "ZQgTvpYzJhDRe0xoROkm2o6AqviZiHtiQIL9uFHS0wBINYN7Sw"
+OAUTH_TOKEN = "850102013174177792-pfalrKryY1o5mQ9WrQRnj1EBrYIaOYf"
+OAUTH_TOKEN_SECRET = "eg0Kfv0EgZ4e2aNtf6tney9lI12S4MlynXkcWIVfiVODE"
 
-twtToJSON = codecs.open('stream_twt.json', 'w', 'utf-8')
+twtToJSON = codecs.open('stream_twt.jsonl', 'w', 'utf-8')
 
 # Disconnection fails bc you can not recieve the data fast enough
 
@@ -24,7 +24,7 @@ class MyStreamer(TwythonStreamer):
         if 'text' in data:
             if 'retweeted_status' in data or 'quoted_status' in data:
                 #print("\tcontinue streaming...")
-                twtToJSON.write(json.JSONEncoder(ensure_ascii=False).encode(data)+',')
+                twtToJSON.write(json.JSONEncoder(ensure_ascii=False).encode(data))
 
     def on_error(self, status_code, data):
         print "ERROR", status_code
@@ -32,12 +32,12 @@ class MyStreamer(TwythonStreamer):
 if __name__ == '__main__':
     print 'Streaming...'
     #opening json array
-    twtToJSON.write('[')
+    #twtToJSON.write('[')
 
     while True:
         try:
             stream = MyStreamer(APP_KEY, APP_SECRET,OAUTH_TOKEN,OAUTH_TOKEN_SECRET)
-            stream.statuses.filter(locations='-125,30,-65,50')
+            stream.statuses.filter(locations='-125,30,-65,50', track='en')
             #stream.statuses.filter(track='en')
 
         except KeyboardInterrupt:
@@ -45,7 +45,7 @@ if __name__ == '__main__':
             # remove the last comma of the json list
             twtToJSON.seek(-1, 2)
             #close the json list
-            twtToJSON.write(']')
+            #twtToJSON.write(']')
             # close file
             twtToJSON.close()
             print '...Stream END'
