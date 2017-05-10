@@ -10,10 +10,10 @@ from httplib import IncompleteRead
 from twython import TwythonStreamer
 import time
 
-APP_KEY = "LWnaGn2ZbLwNa9SYzwbeFz5vQ"
-APP_SECRET = "ZQgTvpYzJhDRe0xoROkm2o6AqviZiHtiQIL9uFHS0wBINYN7Sw"
-OAUTH_TOKEN = "850102013174177792-pfalrKryY1o5mQ9WrQRnj1EBrYIaOYf"
-OAUTH_TOKEN_SECRET = "eg0Kfv0EgZ4e2aNtf6tney9lI12S4MlynXkcWIVfiVODE"
+APP_KEY = ""
+APP_SECRET = ""
+OAUTH_TOKEN = ""
+OAUTH_TOKEN_SECRET = ""
 
 twtToJSON = codecs.open('stream_twt.jsonl', 'w', 'utf-8')
 
@@ -24,7 +24,7 @@ class MyStreamer(TwythonStreamer):
         if 'text' in data:
             if 'retweeted_status' in data or 'quoted_status' in data:
                 #print("\tcontinue streaming...")
-                twtToJSON.write(json.JSONEncoder(ensure_ascii=False).encode(data))
+                twtToJSON.write(json.JSONEncoder(ensure_ascii=False).encode(data)+'\r\n')
 
     def on_error(self, status_code, data):
         print "ERROR", status_code
@@ -37,8 +37,12 @@ if __name__ == '__main__':
     while True:
         try:
             stream = MyStreamer(APP_KEY, APP_SECRET,OAUTH_TOKEN,OAUTH_TOKEN_SECRET)
-            stream.statuses.filter(locations='-125,30,-65,50', track='en')
-            #stream.statuses.filter(track='en')
+
+            """pulling data with keywords (track)"""
+            stream.statuses.filter(locations='-125,30,-65,50', track=['trump','pokemon'], languages='en')
+
+            """pulling data without keywords"""
+            #stream.statuses.filter(locations='-125,30,-65,50', languages='en')
 
         except KeyboardInterrupt:
             stream.disconnect()
