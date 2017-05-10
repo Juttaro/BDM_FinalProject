@@ -10,10 +10,10 @@ from httplib import IncompleteRead
 from twython import TwythonStreamer
 import time
 
-APP_KEY = 'TKTfiGJl2TE32Gh24gCRIdP4J'
-APP_SECRET ='yLjbGEv9TjBNLKmVZOSkIwfP6kij400YkgNB4wPLCJDPAAfUCM'
-OAUTH_TOKEN = '848331199504363520-UmfEjp6vNUCGVhz8CEIuG52JZpXBySf'
-OAUTH_TOKEN_SECRET ='GaiFuI0ssvI7y2EwMo9J0xmazFDdEQnw9uO1hYbZ3TfLA'
+APP_KEY = ""
+APP_SECRET = ""
+OAUTH_TOKEN = ""
+OAUTH_TOKEN_SECRET = ""
 
 twtToJSON = codecs.open('stream_twt.jsonl', 'w', 'utf-8')
 
