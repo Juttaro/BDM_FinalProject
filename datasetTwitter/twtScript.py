@@ -4,18 +4,24 @@ Documentation:  https://twython.readthedocs.io/en/latest/
 Requirements:   pip install twython
 """
 
+import sys
 import json
 import codecs
 from httplib import IncompleteRead
 from twython import TwythonStreamer
 import time
 
-APP_KEY = ""
-APP_SECRET = ""
-OAUTH_TOKEN = ""
-OAUTH_TOKEN_SECRET = ""
+APP_KEY = "TKTfiGJl2TE32Gh24gCRIdP4J"
+APP_SECRET = "yLjbGEv9TjBNLKmVZOSkIwfP6kij400YkgNB4wPLCJDPAAfUCM"
+OAUTH_TOKEN = "848331199504363520-UmfEjp6vNUCGVhz8CEIuG52JZpXBySf"
+OAUTH_TOKEN_SECRET = "GaiFuI0ssvI7y2EwMo9J0xmazFDdEQnw9uO1hYbZ3TfLA"
 
 twtToJSON = codecs.open('stream_twt.jsonl', 'w', 'utf-8')
+nytkeywords = []
+with open('Top100People.txt') as f:
+    nytkeywords = f.readlines()
+    nytkeywords = [x.strip() for x in nytkeywords]
+    #print(nytkeywords)
 
 # Disconnection fails bc you can not recieve the data fast enough
 
@@ -39,7 +45,7 @@ if __name__ == '__main__':
             stream = MyStreamer(APP_KEY, APP_SECRET,OAUTH_TOKEN,OAUTH_TOKEN_SECRET)
 
             """pulling data with keywords (track)"""
-            stream.statuses.filter(locations='-125,30,-65,50', track=['trump','pokemon'], languages='en')
+            stream.statuses.filter(locations='-125,30,-65,50', track=nytkeywords, languages='en')
 
             """pulling data without keywords"""
             #stream.statuses.filter(locations='-125,30,-65,50', languages='en')
