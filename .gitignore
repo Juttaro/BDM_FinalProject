@@ -7,3 +7,4 @@ stream_twt.json
 .ipynb_checkpoints
 JsonToCSV2.py
 ea-TwitterStream.py
+stream_twt.jsonl

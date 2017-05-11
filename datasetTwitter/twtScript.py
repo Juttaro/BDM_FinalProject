@@ -4,7 +4,7 @@ Documentation:  https://twython.readthedocs.io/en/latest/
 Requirements:   pip install twython
 """
 
-import sys
+import random
 import json
 import codecs
 from httplib import IncompleteRead
@@ -18,12 +18,18 @@ OAUTH_TOKEN_SECRET = "GaiFuI0ssvI7y2EwMo9J0xmazFDdEQnw9uO1hYbZ3TfLA"
 
 twtToJSON = codecs.open('stream_twt.jsonl', 'w', 'utf-8')
 nytkeywords = []
-with open('Top100People.txt') as f:
-    nytkeywords = f.readlines()
-    nytkeywords = [x.strip() for x in nytkeywords]
-    #print(nytkeywords)
+with open('Top100People.txt') as peep, open('Top100Subjects.txt') as sub, open('Top100Organizations.txt') as org:
+    peepkeywords = peep.readlines()
+    nytkeywords += [x.strip('\n') for x in peepkeywords]
 
-# Disconnection fails bc you can not recieve the data fast enough
+    subkeywords = sub.readlines()
+    nytkeywords += [x.strip('\n') for x in subkeywords]
+
+    orgkeywords = org.readlines()
+    nytkeywords += [x.strip('\n') for x in orgkeywords]
+
+    random.shuffle(nytkeywords)
+    #print(nytkeywords)
 
 class MyStreamer(TwythonStreamer):
     def on_success(self, data):
