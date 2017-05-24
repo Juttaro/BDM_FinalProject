@@ -16,7 +16,7 @@ APP_SECRET = "yLjbGEv9TjBNLKmVZOSkIwfP6kij400YkgNB4wPLCJDPAAfUCM"
 OAUTH_TOKEN = "848331199504363520-UmfEjp6vNUCGVhz8CEIuG52JZpXBySf"
 OAUTH_TOKEN_SECRET = "GaiFuI0ssvI7y2EwMo9J0xmazFDdEQnw9uO1hYbZ3TfLA"
 
-twtToJSON = codecs.open('stream_twt.jsonl', 'w', 'utf-8')
+twtToJSON = codecs.open('testing.jsonl', 'w', 'utf-8')
 nytkeywords = []
 with open('Top100People.txt') as peep, open('Top100Subjects.txt') as sub, open('Top100Organizations.txt') as org:
     peepkeywords = peep.readlines()

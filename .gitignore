@@ -1,3 +1,4 @@
+#ignore the files/directory below
 .DS_Store
 .idea/
 metastore_db/
@@ -7,4 +8,9 @@ stream_twt.json
 .ipynb_checkpoints
 JsonToCSV2.py
 ea-TwitterStream.py
-stream_twt.jsonl
+datasetTwitter/trumpTwitter/Data/*.jsonl
+zeppelin-0.7.1-bin-netinst/
+
+#Don't ignore the files below
+!.gitignore
+!samplestream_twt.jsonl
